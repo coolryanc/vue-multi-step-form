@@ -9,5 +9,7 @@ export interface FormStep {
     type: FormElement
     key: string
     label: string
+    validator?: (value: string | number) => void
+    errorHint?: string
 }
 
