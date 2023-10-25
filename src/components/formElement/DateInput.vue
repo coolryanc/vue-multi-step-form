@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import BasicInput from './BasicInput.vue';
+</script>
+
 <template>
-  <input type="date" />
+  <BasicInput v-bind="$attrs" type="date" />
 </template>

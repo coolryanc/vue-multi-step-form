@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TextInput from './TextInput.vue';
+import BasicInput from './BasicInput.vue';
 </script>
 
 <template>
-  <TextInput />
+  <BasicInput v-bind="$attrs" />
 </template>

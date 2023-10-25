@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { FormElement, type FormStep } from '@/types/MultiStepForm.type'
+import { FormElement, type FormSteps } from '@/types/MultiStepForm.type'
 import MultiStepForm from '@/components/MultiStepForm.vue'
 
-const formSteps: FormStep[] = [
+const formSteps: FormSteps = [
   {
     key: 'name',
     label: 'Name',
     type: FormElement.Text
   },
   {
-    key: 'Email',
-    label: 'email',
+    key: 'email',
+    label: 'Email',
     type: FormElement.Email
   },
   {

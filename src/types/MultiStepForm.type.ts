@@ -13,3 +13,4 @@ export interface FormStep {
     errorHint?: string
 }
 
+export type FormSteps = FormStep[]
