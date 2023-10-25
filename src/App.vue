@@ -6,7 +6,12 @@ const formSteps: FormSteps = [
   {
     key: 'name',
     label: 'Name',
-    type: FormElement.Text
+    type: FormElement.Text,
+    ruleValidator: (value: any) => {
+      if (value && value.length > 5) {
+        return 'No more than 5 characters'
+      }
+    },
   },
   {
     key: 'email',

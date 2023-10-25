@@ -1,6 +1,15 @@
 <script setup lang="ts">
-defineProps(['modelValue'])
-defineEmits(['update:modelValue'])
+import { watch } from 'vue'
+
+const props = defineProps(['modelValue', 'ruleValidator'])
+const emits = defineEmits(['update:modelValue', 'error'])
+
+watch(() => props.modelValue, (value) => {
+  const errorHint = props?.ruleValidator?.(value)
+  if (errorHint) {
+    emits('error', errorHint)
+  }
+})
 </script>
 
 
@@ -8,6 +17,5 @@ defineEmits(['update:modelValue'])
   <input
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
-    :type="type"
   />
 </template>

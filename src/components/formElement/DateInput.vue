@@ -3,5 +3,5 @@ import BasicInput from './BasicInput.vue';
 </script>
 
 <template>
-  <BasicInput v-bind="$attrs" type="date" />
+  <BasicInput v-bind="{...$props, ...$attrs}" type="date" />
 </template>

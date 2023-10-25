@@ -3,5 +3,5 @@ import BasicInput from './BasicInput.vue';
 </script>
 
 <template>
-  <BasicInput v-bind="$attrs" type="password" />
+  <BasicInput v-bind="{...$props, ...$attrs}" type="password" />
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, computed, type Component } from 'vue'
-import { FormElement, type FormSteps } from '@/types/MultiStepForm.type'
+import { ref, reactive, computed, watch, type Component } from 'vue'
+import { FormElement, type FormSteps, type ErrorHint } from '@/types/MultiStepForm.type'
 // Form elements
 import BasicInput from './formElement/BasicInput.vue'
 import DateInput from './formElement/DateInput.vue'
@@ -12,7 +12,9 @@ const props = defineProps<{
 }>()
 
 const currentStep = ref(0)
+const formErrorHint = ref<ErrorHint>('')
 const formValues = reactive<Record<string, any>>({})
+const currentStepValue = computed(() => formValues[props.steps[currentStep.value].key])
 const isFinalStep = computed<boolean>(() => currentStep.value === props.steps.length - 1)
 const showBackButton = computed<boolean>(() => currentStep.value !== 0)
 
@@ -34,9 +36,27 @@ const getFormElement = (type: FormElement): Component => {
   }
 }
 const handleNext = (): void => {
+  const { required = true } = props.steps[currentStep.value]
+
+  if (formErrorHint.value) return
+
+  if (required && !currentStepValue.value) {
+    formErrorHint.value = 'Required'
+    return
+  }
+
   currentStep.value += 1
 }
 
+const handleError = (error: ErrorHint): void => {
+  formErrorHint.value = error
+}
+
+watch(currentStepValue, () => {
+  if (formErrorHint.value) {
+    formErrorHint.value = ''
+  }
+})
 </script>
 
 <template>
@@ -49,10 +69,14 @@ const handleNext = (): void => {
         <label>{{ step.label }}</label>
         <component
           :is="getFormElement(step.type)"
+          :class="{ 'error': formErrorHint }"
+          :ruleValidator="step.ruleValidator"
           v-model="formValues[step.key]"
+          @error="handleError"
         />
       </div>
     </div>
+    <div class="error-hint" v-if="formErrorHint">{{ formErrorHint }}</div>
   </form>
   <button v-if="!isFinalStep" @click="handleNext">
     Next
@@ -69,5 +93,11 @@ form {
 .step {
   display: flex;
   flex-direction: column;
+}
+.error {
+  border: 1px solid red;
+}
+.error-hint {
+  color: red
 }
 </style>

@@ -5,12 +5,13 @@ export enum FormElement {
     Password
 }
 
+export type ErrorHint = string
 export interface FormStep {
     type: FormElement
     key: string
     label: string
-    validator?: (value: string | number) => void
-    errorHint?: string
+    required?: boolean
+    ruleValidator?: (value: any) => ErrorHint | undefined
 }
 
 export type FormSteps = FormStep[]
