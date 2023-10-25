@@ -13,7 +13,8 @@ const props = defineProps<{
 
 const currentStep = ref(0)
 const formValues = reactive<Record<string, any>>({})
-const isFinalStep = computed<boolean>(() => currentStep.value === props.steps.length)
+const isFinalStep = computed<boolean>(() => currentStep.value === props.steps.length - 1)
+const showBackButton = computed<boolean>(() => currentStep.value !== 0)
 
 const getFormElement = (type: FormElement): Component => {
   switch (type) {
@@ -32,14 +33,41 @@ const getFormElement = (type: FormElement): Component => {
     }
   }
 }
+const handleNext = (): void => {
+  currentStep.value += 1
+}
 
 </script>
 
 <template>
+  <button v-if="showBackButton" @click="currentStep -= 1">
+    Back
+  </button>
   <form>
-    <div v-for="step in steps" :key="step.key">
-      <component :is="getFormElement(step.type)" v-model="formValues[step.key]" />
+    <div v-for="(step, idx) in steps" :key="step.key">
+      <div v-if="idx === currentStep" class="step">
+        <label>{{ step.label }}</label>
+        <component
+          :is="getFormElement(step.type)"
+          v-model="formValues[step.key]"
+        />
+      </div>
     </div>
   </form>
-  <button v-if="isFinalStep" @click="$emit('submit', formValues)" />
+  <button v-if="!isFinalStep" @click="handleNext">
+    Next
+  </button>
+  <button v-if="isFinalStep" @click="$emit('submit', formValues)">
+    Submit
+  </button>
 </template>
+
+<style>
+form {
+  margin: 12px 0;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+}
+</style>
