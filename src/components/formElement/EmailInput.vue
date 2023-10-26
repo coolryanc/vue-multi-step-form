@@ -14,5 +14,5 @@ const handleEmailValidate = (value: string): ErrorHint => {
 </script>
 
 <template>
-  <BasicInput v-bind="{...$props, ...$attrs}" :ruleValidator="handleEmailValidate" />
+  <BasicInput v-bind="{...$props, ...$attrs}" :ruleValidator="handleEmailValidate" type="email" />
 </template>

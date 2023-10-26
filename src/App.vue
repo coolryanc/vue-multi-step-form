@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { FormElement, type FormSteps } from '@/types/MultiStepForm.type'
 import MultiStepForm from '@/components/MultiStepForm.vue'
 
@@ -29,11 +30,21 @@ const formSteps: FormSteps = [
     type: FormElement.Password
   },
 ]
+const submitted = ref<boolean>(false)
+const handleSubmit = (formValues: Record<string, any>) => {
+  console.log('Form values:', formValues)
+  submitted.value = true
+}
 </script>
 
 <template>
   <main>
-    <MultiStepForm :steps="formSteps" />
+    <MultiStepForm
+      v-if="!submitted"
+      :steps="formSteps"
+      @submit="handleSubmit"
+    />
+    <div v-else>Successfully Submitted!</div>
   </main>
 </template>
 
