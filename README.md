@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [create-vue](https://github.com/vuejs/create-vue)
 
-![]('./screenshot/video.mp4')
+https://github.com/ryanC1993/vue-multi-step-form/assets/9876706/6b07298c-cec7-4c07-9161-ecaa501e10e7
 
 ## Specs
 - [x] Back links appear on every screen other than the first one, going back to the step the user was just on
