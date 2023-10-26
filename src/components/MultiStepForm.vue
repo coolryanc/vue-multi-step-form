@@ -60,10 +60,10 @@ watch(currentStepValue, () => {
 </script>
 
 <template>
-  <button v-if="showBackButton" @click="currentStep -= 1">
+  <button v-if="showBackButton" @click="currentStep -= 1" aria-label="Back">
     Back
   </button>
-  <form>
+  <form @submit.prevent="handleNext">
     <div v-for="(step, idx) in steps" :key="step.key">
       <div v-if="idx === currentStep" class="step">
         <label>{{ step.label }}</label>
@@ -71,6 +71,7 @@ watch(currentStepValue, () => {
           :is="getFormElement(step.type)"
           :class="{ 'error': formErrorHint }"
           :ruleValidator="step.ruleValidator"
+          :aria-required="step.required ?? true"
           v-model="formValues[step.key]"
           @error="handleError"
         />
@@ -78,10 +79,10 @@ watch(currentStepValue, () => {
     </div>
     <div class="error-hint" v-if="formErrorHint">{{ formErrorHint }}</div>
   </form>
-  <button v-if="!isFinalStep" @click="handleNext">
+  <button v-if="!isFinalStep" @click="handleNext" aria-label="Next">
     Next
   </button>
-  <button v-if="isFinalStep" @click="$emit('submit', formValues)">
+  <button v-if="isFinalStep" @click="$emit('submit', formValues)" aria-label="Submit">
     Submit
   </button>
 </template>
