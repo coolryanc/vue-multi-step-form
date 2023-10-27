@@ -11,7 +11,7 @@ https://github.com/ryanC1993/vue-multi-step-form/assets/9876706/6b07298c-cec7-4c
 - [x] Show a success screen.
 
 ## Solution
-In case there are new requirements from PM to add different multi-step form or add new steps, we want to make a more generic component `MultiStepForm`. The component has ability to render steps dynamically.
+In case there are new requirements from PM to add different multi-step form or add new steps, we want to make a more generic component `MultiStepForm`. The component has ability to render steps dynamically and has good scalability.
 
 ### Props (API Design)
 To render multi-step dynamically, we need the following props:
@@ -29,7 +29,7 @@ By current requirement, it needs to support 4 types of input:
 - [\<input type="email"\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email)
 - [\<input type="password"\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password)
 
-Wrap these 4 input types as components, and based on the props steps, render the input component by `step.type`.
+Wrap these 4 input types as components, and based on the props steps, render the input component by `step.type`. Apart from these 4 input types, we can have more input types regarding the requirement.
 
 ### State
 We need the following states:
@@ -43,18 +43,18 @@ The next button should handle the logic about checking that the input value is n
 ### Submit button
 We should emit an event to let the parent component know that the submit button was clicked, and the parent component can have the callback function, the params of the callback function would be the `formValues`.
 
+## Accessibility
+- Add `aria-label` to buttons.
+- Add `aria-required` to required inputs. The `aria-required` attribute indicates that user input is required on the element.
+
 ## Test Cases
+- Each input is required.
 - The Back button should not appear in the first step, but should appear in other steps.
   - When go back to previous step, the previous input value should be shown.
 - The Next button should not appear in the final steps.
   - Next button should not work if the value is empty or doesn't pass the rule check.
 - The submit button should appear in the final steps.
   - Clicking Submit should display a success screen.
-
-
-## Accessibility
-- Add `aria-label` to buttons.
-- Add `aria-required` to required inputs. The `aria-required` attribute indicates that user input is required on the element.
 
 ## Project Setup
 ```sh
